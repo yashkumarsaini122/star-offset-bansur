@@ -22,7 +22,19 @@
     </style>
 </head>
 <body>
+<div id="live-clock" style="text-align: center; background: #2c3e50; color: white; padding: 10px; font-family: 'Courier New', Courier, monospace; font-size: 1rem; border-bottom: 2px solid #f1c40f;">
+  Loading Date & Time...
+</div>
 
+<script>
+  function updateClock() {
+    const now = new Date();
+    const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+    document.getElementById('live-clock').innerText = now.toLocaleString('en-IN', options);
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+</script>
 <header>
     <h1>Star Offset Printers</h1>
     <p>Bansur ka Vishwasniya Printing Partner (Since 2006)</p>
@@ -82,6 +94,15 @@
 
     fetchProducts();
 </script>
-
+<section style="margin: 30px 10px; text-align: center;">
+  <h2 style="color: #2c3e50; margin-bottom: 15px;">📍 Hamari Shop (Bansur)</h2>
+  <div style="border: 4px solid #f1c40f; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+    <iframe 
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3535.8436531393693!2d76.3456345!3d27.6757656!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3972997194f2911b%3A0x6a059c009d3b1e3f!2sStar%20Offset%20Printers!5e0!3m2!1sen!2sin!4v1711510000000!5m2!1sen!2sin" 
+      width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy">
+    </iframe>
+  </div>
+  <p style="margin-top: 10px; font-weight: bold; color: #555;">Star Offset Printers, Bansur, Alwar (Raj.)</p>
+</section>
 </body>
 </html>
