@@ -125,5 +125,55 @@
     </div>
   </div>
 </div>
+    <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  // Tera asali Firebase code (Photo se uthaya gaya)
+  const firebaseConfig = {
+    apiKey: "AIzaSyD3L2l1IuiCyRA8B9xGk5DpxXD_kP0rmYQ",
+    authDomain: "star-offset-portal.firebaseapp.com",
+    projectId: "star-offset-portal",
+    storageBucket: "star-offset-portal.firebasestorage.app",
+    messagingSenderId: "302564033210",
+    appId: "1:302564033210:web:8ebfe8be2b0081277f3883",
+    measurementId: "G-GKZ58TRM03"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth();
+  const provider = new GoogleAuthProvider();
+
+  // Login karne ke liye function
+  window.loginWithGoogle = function() {
+    signInWithPopup(auth, provider).then((result) => {
+      console.log("User Logged In");
+    }).catch((error) => {
+      alert("Error: " + error.message);
+    });
+  };
+
+  // Logout karne ke liye function
+  window.logout = function() {
+    signOut(auth).then(() => {
+      location.reload();
+    });
+  };
+
+  // Check karna ki user login hai ya nahi
+  onAuthStateChanged(auth, (user) => {
+    const userInfo = document.getElementById('user-info');
+    const loginBtn = document.getElementById('login-btn');
+    if (user) {
+      loginBtn.style.display = 'none';
+      userInfo.style.display = 'flex';
+      document.getElementById('user-name').innerText = user.displayName;
+      document.getElementById('user-pic').src = user.photoURL;
+    } else {
+      loginBtn.style.display = 'block';
+      userInfo.style.display = 'none';
+    }
+  });
+</script>
 </body>
 </html>
