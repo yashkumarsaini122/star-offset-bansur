@@ -35,6 +35,14 @@
   setInterval(updateClock, 1000);
   updateClock();
 </script>
+    <div id="auth-section" style="display: flex; justify-content: flex-end; align-items: center; padding: 10px; background: #f8f9fa; border-bottom: 1px solid #ddd;">
+  <div id="user-info" style="display: none; align-items: center; gap: 10px;">
+    <img id="user-pic" src="" alt="Profile" style="width: 35px; height: 35px; border-radius: 50%; border: 2px solid #2c3e50;">
+    <span id="user-name" style="font-weight: bold; color: #2c3e50;">User Name</span>
+    <button onclick="logout()" style="background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Logout</button>
+  </div>
+  <button id="login-btn" onclick="loginWithGoogle()" style="background: #4285F4; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">Login with Google</button>
+</div>
 <header>
     <h1>Star Offset Printers</h1>
     <p>Bansur ka Vishwasniya Printing Partner (Since 2006)</p>
@@ -104,5 +112,18 @@
   </div>
   <p style="margin-top: 10px; font-weight: bold; color: #555;">Star Offset Printers, Bansur, Alwar (Raj.)</p>
 </section>
+    <div id="dashboard-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; overflow-y: auto;">
+  <div style="background: white; width: 90%; max-width: 500px; margin: 50px auto; padding: 20px; border-radius: 15px; position: relative;">
+    <span onclick="closeDashboard()" style="position: absolute; right: 20px; top: 10px; font-size: 30px; cursor: pointer;">&times;</span>
+    <h2 style="text-align: center; color: #2c3e50;">My Orders Dashboard</h2>
+    <div id="order-tabs" style="display: flex; gap: 10px; margin-bottom: 20px;">
+        <button onclick="showOrders('new')" style="flex: 1; padding: 10px; border: none; background: #f1c40f; font-weight: bold; cursor: pointer;">Pending</button>
+        <button onclick="showOrders('old')" style="flex: 1; padding: 10px; border: none; background: #bdc3c7; font-weight: bold; cursor: pointer;">History</button>
+    </div>
+    <div id="order-list">
+        <p style="text-align: center; color: #888;">No orders found.</p>
+    </div>
+  </div>
+</div>
 </body>
 </html>
