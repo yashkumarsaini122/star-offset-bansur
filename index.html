@@ -22,20 +22,12 @@
     </style>
 </head>
 <body>
+
 <div id="live-clock" style="text-align: center; background: #2c3e50; color: white; padding: 10px; font-family: 'Courier New', Courier, monospace; font-size: 1rem; border-bottom: 2px solid #f1c40f;">
   Loading Date & Time...
 </div>
 
-<script>
-  function updateClock() {
-    const now = new Date();
-    const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
-    document.getElementById('live-clock').innerText = now.toLocaleString('en-IN', options);
-  }
-  setInterval(updateClock, 1000);
-  updateClock();
-</script>
-    <div id="auth-section" style="display: flex; justify-content: flex-end; align-items: center; padding: 10px; background: #f8f9fa; border-bottom: 1px solid #ddd;">
+<div id="auth-section" style="display: flex; justify-content: flex-end; align-items: center; padding: 10px; background: #f8f9fa; border-bottom: 1px solid #ddd;">
   <div id="user-info" style="display: none; align-items: center; gap: 10px;">
     <img id="user-pic" src="" alt="Profile" style="width: 35px; height: 35px; border-radius: 50%; border: 2px solid #2c3e50;">
     <span id="user-name" style="font-weight: bold; color: #2c3e50;">User Name</span>
@@ -43,6 +35,7 @@
   </div>
   <button id="login-btn" onclick="loginWithGoogle()" style="background: #4285F4; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">Login with Google</button>
 </div>
+
 <header>
     <h1>Star Offset Printers</h1>
     <p>Bansur ka Vishwasniya Printing Partner (Since 2006)</p>
@@ -56,147 +49,56 @@
 <div class="container">
     <h2>Hamare Products aur Rates</h2>
     <p id="loading">Updating latest prices...</p>
-    <div id="product-grid" class="grid">
-        </div>
-
+    <div id="product-grid" class="grid"></div>
     <a href="https://wa.me/919982381285" class="contact-btn">WhatsApp par Order Karein</a>
 </div>
 
 <div class="footer">
-    <p>&copy; 2026 Star Offset Printers - Bansur | Alwar (Raj.)</p>
+    <p>© 2026 Star Offset Printers - Bansur | Alwar (Raj.)</p>
     <p>Developed by an Engineer | GitHub Project V1.0</p>
 </div>
 
 <script>
-    // 🔴 APNA GOOGLE SHEET CSV LINK YAHAN PASTE KAREIN
-    const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS3HSnRktns5j8sBUjxJNbp0ktWFG_NKd7z1FZ2JUdyObGgTLH9KHUwESsC1p2OYe-TpX1-3QHR63oT/pub?gid=0&single=true&output=csv";
+  function updateClock() {
+    const now = new Date();
+    const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+    document.getElementById('live-clock').innerText = now.toLocaleString('en-IN', options);
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
 
-    async function fetchProducts() {
-        try {
-            const response = await fetch(sheetURL);
-            const data = await response.text();
-            const rows = data.split('\n').slice(1); // Pehli heading row ko chhod kar
-            const grid = document.getElementById('product-grid');
-            const loading = document.getElementById('loading');
-            
-            grid.innerHTML = '';
-            rows.forEach(row => {
-                const cols = row.split(',');
-                if(cols.length >= 2) {
-                    const card = `
-                        <div class="card">
-                            <h3>${cols[0]}</h3>
-                            <p>${cols[2] || 'Best quality printing'}</p>
-                            <div class="price">₹${cols[1]}</div>
-                        </div>
-                    `;
-                    grid.innerHTML += card;
-                }
-            });
-            loading.style.display = 'none';
-        } catch (error) {
-            console.error("Error loading data:", error);
-            document.getElementById('loading').innerText = "Data load nahi ho paya. Sheet link check karein.";
-        }
-    }
+  const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS3HSnRktns5j8sBUjxJNbp0ktWFG_NKd7z1FZ2JUdyObGgTLH9KHUwESsC1p2OYe-TpX1-3QHR63oT/pub?gid=0&single=true&output=csv";
 
-    fetchProducts();
+  async function fetchProducts() {
+      try {
+          const response = await fetch(sheetURL);
+          const data = await response.text();
+          const rows = data.split('\n').slice(1);
+          const grid = document.getElementById('product-grid');
+          const loading = document.getElementById('loading');
+          
+          grid.innerHTML = '';
+          rows.forEach(row => {
+              const cols = row.split(',');
+              if(cols.length >= 2) {
+                  const card = `
+                      <div class="card">
+                          <h3>${cols[0]}</h3>
+                          <p>${cols[2] || 'Best quality printing'}</p>
+                          <div class="price">₹${cols[1]}</div>
+                      </div>
+                  `;
+                  grid.innerHTML += card;
+              }
+          });
+          loading.style.display = 'none';
+      } catch (error) {
+          console.error("Error loading data:", error);
+          document.getElementById('loading').innerText = "Data load nahi ho paya.";
+      }
+  }
+  fetchProducts();
 </script>
-<section style="margin: 30px 10px; text-align: center;">
-  <h2 style="color: #2c3e50; margin-bottom: 15px;">📍 Hamari Shop (Bansur)</h2>
-  <div style="border: 4px solid #f1c40f; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-    <iframe 
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3535.8436531393693!2d76.3456345!3d27.6757656!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3972997194f2911b%3A0x6a059c009d3b1e3f!2sStar%20Offset%20Printers!5e0!3m2!1sen!2sin!4v1711510000000!5m2!1sen!2sin" 
-      width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy">
-    </iframe>
-  </div>
-  <p style="margin-top: 10px; font-weight: bold; color: #555;">Star Offset Printers, Bansur, Alwar (Raj.)</p>
-</section>
-    <div id="dashboard-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; overflow-y: auto;">
-  <div style="background: white; width: 90%; max-width: 500px; margin: 50px auto; padding: 20px; border-radius: 15px; position: relative;">
-    <span onclick="closeDashboard()" style="position: absolute; right: 20px; top: 10px; font-size: 30px; cursor: pointer;">&times;</span>
-    <h2 style="text-align: center; color: #2c3e50;">My Orders Dashboard</h2>
-    <div id="order-tabs" style="display: flex; gap: 10px; margin-bottom: 20px;">
-        <button onclick="showOrders('new')" style="flex: 1; padding: 10px; border: none; background: #f1c40f; font-weight: bold; cursor: pointer;">Pending</button>
-        <button onclick="showOrders('old')" style="flex: 1; padding: 10px; border: none; background: #bdc3c7; font-weight: bold; cursor: pointer;">History</button>
-    </div>
-    <div id="order-list">
-        <p style="text-align: center; color: #888;">No orders found.</p>
-    </div>
-  </div>
-</div>
-    <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-  // Tera asali Firebase code (Photo se uthaya gaya)
-  const firebaseConfig = {
-    apiKey: "AIzaSyD3L2l1IuiCyRA8B9xGk5DpxXD_kP0rmYQ",
-    authDomain: "star-offset-portal.firebaseapp.com",
-    projectId: "star-offset-portal",
-    storageBucket: "star-offset-portal.firebasestorage.app",
-    messagingSenderId: "302564033210",
-    appId: "1:302564033210:web:8ebfe8be2b0081277f3883",
-    measurementId: "G-GKZ58TRM03"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth();
-  const provider = new GoogleAuthProvider();
-
-  // Login karne ke liye function
-  window.loginWithGoogle = function() {
-    signInWithPopup(auth, provider).then((result) => {
-      console.log("User Logged In");
-    }).catch((error) => {
-      alert("Error: " + error.message);
-    });
-  };
-
-  // Logout karne ke liye function
-  window.logout = function() {
-    signOut(auth).then(() => {
-      location.reload();
-    });
-  };
-       <div style="text-align: center; margin: 20px;">
-    <button id="login-btn" onclick="loginWithGoogle()" style="padding: 12px 24px; background: #4285F4; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
-        Login with Google
-    </button>
-    <div id="user-info" style="display:none; flex-direction: column; align-items:center; gap: 10px;">
-        <img id="user-pic" src="" style="width:60px; border-radius:50%; border: 3px solid #4285F4;">
-        <p id="user-name" style="font-weight: bold; margin: 5px 0;"></p>
-        <button onclick="logout()" style="background: #f44336; color: white; border: none; padding: 5px 15px; border-radius: 4px; cursor: pointer;">Logout</button>
-    </div>
-</div>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyD3L2l1IuiCyRA8B9xGk5DpxXD_kP0rmYQ",
-    authDomain: "star-offset-portal.firebaseapp.com",
-    projectId: "star-offset-portal",
-    storageBucket: "star-offset-portal.firebasestorage.app",
-    messagingSenderId: "302564033210",
-    appId: "1:302564033210:web:8ebfe8be2b0081277f3883",
-    measurementId: "G-GKZ58TRM03"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth();
-  const provider = new GoogleAuthProvider();
-<div style="text-align: center; margin: 20px;">
-    <button id="login-btn" onclick="loginWithGoogle()" style="padding: 12px 24px; background: #4285F4; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
-        Login with Google
-    </button>
-    <div id="user-info" style="display:none; flex-direction: column; align-items:center; gap: 10px;">
-        <img id="user-pic" src="" style="width:60px; border-radius:50%; border: 3px solid #4285F4;">
-        <p id="user-name" style="font-weight: bold; margin: 5px 0;"></p>
-        <button onclick="logout()" style="background: #f44336; color: white; border: none; padding: 5px 15px; border-radius: 4px; cursor: pointer;">Logout</button>
-    </div>
-</div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -216,7 +118,6 @@
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
 
-  // Functions ko window object mein daalna zaroori hai
   window.loginWithGoogle = function() {
     signInWithPopup(auth, provider).catch((err) => alert("Error: " + err.message));
   };
@@ -229,17 +130,16 @@
     const userInfo = document.getElementById('user-info');
     const loginBtn = document.getElementById('login-btn');
     if (user) {
-      if(loginBtn) loginBtn.style.display = 'none';
-      if(userInfo) {
-        userInfo.style.display = 'flex';
-        document.getElementById('user-name').innerText = "Ram Ram, " + user.displayName;
-        document.getElementById('user-pic').src = user.photoURL;
-      }
+      loginBtn.style.display = 'none';
+      userInfo.style.display = 'flex';
+      document.getElementById('user-name').innerText = user.displayName;
+      document.getElementById('user-pic').src = user.photoURL;
     } else {
-      if(loginBtn) loginBtn.style.display = 'block';
-      if(userInfo) userInfo.style.display = 'none';
+      loginBtn.style.display = 'block';
+      userInfo.style.display = 'none';
     }
   });
 </script>
+
 </body>
 </html>
