@@ -159,19 +159,85 @@
       location.reload();
     });
   };
+       <div style="text-align: center; margin: 20px;">
+    <button id="login-btn" onclick="loginWithGoogle()" style="padding: 12px 24px; background: #4285F4; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+        Login with Google
+    </button>
+    <div id="user-info" style="display:none; flex-direction: column; align-items:center; gap: 10px;">
+        <img id="user-pic" src="" style="width:60px; border-radius:50%; border: 3px solid #4285F4;">
+        <p id="user-name" style="font-weight: bold; margin: 5px 0;"></p>
+        <button onclick="logout()" style="background: #f44336; color: white; border: none; padding: 5px 15px; border-radius: 4px; cursor: pointer;">Logout</button>
+    </div>
+</div>
 
-  // Check karna ki user login hai ya nahi
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD3L2l1IuiCyRA8B9xGk5DpxXD_kP0rmYQ",
+    authDomain: "star-offset-portal.firebaseapp.com",
+    projectId: "star-offset-portal",
+    storageBucket: "star-offset-portal.firebasestorage.app",
+    messagingSenderId: "302564033210",
+    appId: "1:302564033210:web:8ebfe8be2b0081277f3883",
+    measurementId: "G-GKZ58TRM03"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth();
+  const provider = new GoogleAuthProvider();
+<div style="text-align: center; margin: 20px;">
+    <button id="login-btn" onclick="loginWithGoogle()" style="padding: 12px 24px; background: #4285F4; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+        Login with Google
+    </button>
+    <div id="user-info" style="display:none; flex-direction: column; align-items:center; gap: 10px;">
+        <img id="user-pic" src="" style="width:60px; border-radius:50%; border: 3px solid #4285F4;">
+        <p id="user-name" style="font-weight: bold; margin: 5px 0;"></p>
+        <button onclick="logout()" style="background: #f44336; color: white; border: none; padding: 5px 15px; border-radius: 4px; cursor: pointer;">Logout</button>
+    </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD3L2l1IuiCyRA8B9xGk5DpxXD_kP0rmYQ",
+    authDomain: "star-offset-portal.firebaseapp.com",
+    projectId: "star-offset-portal",
+    storageBucket: "star-offset-portal.firebasestorage.app",
+    messagingSenderId: "302564033210",
+    appId: "1:302564033210:web:8ebfe8be2b0081277f3883",
+    measurementId: "G-GKZ58TRM03"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth();
+  const provider = new GoogleAuthProvider();
+
+  // Functions ko window object mein daalna zaroori hai
+  window.loginWithGoogle = function() {
+    signInWithPopup(auth, provider).catch((err) => alert("Error: " + err.message));
+  };
+
+  window.logout = function() {
+    signOut(auth).then(() => location.reload());
+  };
+
   onAuthStateChanged(auth, (user) => {
     const userInfo = document.getElementById('user-info');
     const loginBtn = document.getElementById('login-btn');
     if (user) {
-      loginBtn.style.display = 'none';
-      userInfo.style.display = 'flex';
-      document.getElementById('user-name').innerText = user.displayName;
-      document.getElementById('user-pic').src = user.photoURL;
+      if(loginBtn) loginBtn.style.display = 'none';
+      if(userInfo) {
+        userInfo.style.display = 'flex';
+        document.getElementById('user-name').innerText = "Ram Ram, " + user.displayName;
+        document.getElementById('user-pic').src = user.photoURL;
+      }
     } else {
-      loginBtn.style.display = 'block';
-      userInfo.style.display = 'none';
+      if(loginBtn) loginBtn.style.display = 'block';
+      if(userInfo) userInfo.style.display = 'none';
     }
   });
 </script>
